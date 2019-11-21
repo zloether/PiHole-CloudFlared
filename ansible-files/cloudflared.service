@@ -6,7 +6,7 @@ After=network.target network-online.target
 [Service]
 User={{ app_name }}
 Group={{ app_name }}
-ExecStart=/usr/local/bin/cloudflared proxy-dns --port 5300 --upstream https://1.1.1.1/.well-known/dns-query --upstream https://1.0.0.1/.well-known/dns-query
+ExecStart=/usr/local/bin/cloudflared proxy-dns --port {{ dns_port }} --upstream https://1.1.1.1/.well-known/dns-query --upstream https://1.0.0.1/.well-known/dns-query
 Restart=on-abort
  
 [Install]

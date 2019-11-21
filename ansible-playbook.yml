@@ -1,11 +1,11 @@
-#!/usr/bin/env ansible-playbook -i inventory --ask-pass --ask-become-pass --check ansible-playbook.yml
+#!/usr/bin/env ansible-playbook -i inventory --ask-pass --ask-become-pass ansible-playbook.yml
 
 ---
 - hosts: pihole
   remote_user: pi
   become: yes
   vars:
-    dns_port: 53
+    dns_port: 5300
     app_name: cloudflared
     app_dir: /usr/local/bin
     tmp_dir: /tmp/
