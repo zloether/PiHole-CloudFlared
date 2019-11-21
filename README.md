@@ -28,7 +28,7 @@ Anible project to configure CloudFlare DNS over HTTPS client on PiHole
 
 1. From inside the `PiHole-CloudFlared` directory, run this command:
     ```
-    ansible-playbook -i inventory --ask-pass --ask-become-pass
+    ansible-playbook -i inventory --ask-pass --ask-become-pass ansible-playbook.yml
     ```
 
 1. Log into the admin page of your PiHole
