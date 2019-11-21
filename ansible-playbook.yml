@@ -1,0 +1,59 @@
+#!/usr/bin/env ansible-playbook -i inventory --ask-pass --ask-become-pass --check ansible-playbook.yml
+
+---
+- hosts: pihole
+  remote_user: pi
+  become: yes
+  vars:
+    dns_port: 53
+    app_name: cloudflared
+    app_dir: /usr/local/bin
+    tmp_dir: /tmp/
+  tasks:
+  - name: install updates
+    apt:
+      update_cache: yes
+      upgrade: safe
+  - name: update pihole
+    command: pihole -up
+  - name: download and install cloudflared binary
+    unarchive:
+      src: https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-arm.tgz
+      dest: "{{ app_dir }}"
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
+  - name: create cloudflared user
+    user:
+      create_home: no
+      name: "{{ app_name }}"
+      shell: /bin/bash
+      state: present
+      system: yes
+  - name: copy systemd script for cloudflared
+    template:
+      src: ansible-files/cloudflared.service
+      dest: "/etc/systemd/system/{{ app_name }}.service"
+      owner: root
+      group: root
+      mode: 0755
+    notify:
+      - reload cloudflared
+      - restart app
+  - name: start cloudflared daemon
+    service:
+      name: "{{ app_name }}"
+      state: started
+      enabled: yes
+  handlers:
+    - name: reload cloudflared
+      become: true
+      command: systemctl daemon-reload
+    - name: restart app
+      service:
+        name: "{{ app_name }}"
+        state: restarted
+
+
+
