@@ -38,6 +38,6 @@ Anible project to configure CloudFlare DNS over HTTPS client on PiHole
 1. Change your Upstream DNS Servers to use a custom value:
     __127.0.0.1#5300__
 
-1. Click the `Save` button
-
 ![config](https://github.com/zloether/PiHole-CloudFlared/blob/master/config.png)
+
+1. Click the `Save` button
