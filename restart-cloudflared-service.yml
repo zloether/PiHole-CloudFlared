@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook -i inventory --ask-pass --ask-become-pass ansible-playbook.yml
+
+---
+- hosts: pihole
+  remote_user: pi
+  become: yes
+  vars:
+    app_name: cloudflared
+  tasks:
+  - name: start cloudflared daemon
+    service:
+      name: "{{ app_name }}"
+      state: restarted
+      enabled: yes
+
+
