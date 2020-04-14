@@ -46,6 +46,15 @@
       name: "{{ app_name }}"
       state: started
       enabled: yes
+  - name: schedule cloudflared daily restart
+    cron:
+      name: restart cloudclared
+      job: "/bin/systemctl restart {{ app_name }}"
+      state: present
+      month: "*"
+      day: "*"
+      hour: "3"
+      minute: "0"
   handlers:
     - name: reload cloudflared
       become: true
