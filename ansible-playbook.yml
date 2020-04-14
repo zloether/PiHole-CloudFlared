@@ -48,8 +48,17 @@
       enabled: yes
   - name: schedule cloudflared daily restart
     cron:
-      name: restart cloudclared
+      name: restart cloudclared (daily)
       job: "/bin/systemctl restart {{ app_name }}"
+      state: present
+      month: "*"
+      day: "*"
+      hour: "3"
+      minute: "0"
+  - name: schedule weekly reboot
+    cron:
+      name: reboot (weekly)
+      job: "/sbin/shutdown -r now"
       state: present
       month: "*"
       day: "*"
